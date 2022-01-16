@@ -1,8 +1,9 @@
 train:
   data:
-    train_dir: ./data/tuples/train
+    format: bitboard
+    train_dir: ./data/tuples/bitboard/train
     train_batch_size: 64
-    test_dir: ./data/tuples/test
+    test_dir: ./data/tuples/bitboard/test
     test_batch_size: 64
   model:
     input_size: 773
@@ -18,7 +19,7 @@ train:
     save_dir: ./models
 evaluate:
   data:
-    test_dir: ./data/tuples/test
+    test_dir: ./data/tuples/bitboard/test
     test_batch_size: 64
     model_dir: ./models
   eval:

@@ -2,6 +2,7 @@
 data/pgn/*
 data/bitboards/*
 data/tuples/*
+data/tensors/*
 !data/pgn/README.md
 !data/pgn/lichess_db_standard_rated_2013-01-truncated.pgn
 models/*
