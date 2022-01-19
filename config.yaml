@@ -1,0 +1,7 @@
+preprocess:
+  pgn_path: "./data/pgn/lichess_db_standard_rated_2013-01.pgn"
+  save_path: "./data/tensors/lichess_db_standard_rated_2013-01_v2.h5"
+  game_filter: "none"
+  game_processor: "positions_to_tensor"
+  chunk_size: 100000
+  number_games: 100
