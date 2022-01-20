@@ -21,7 +21,7 @@ if __name__ == "__main__":
 		save_path=params['save_path'],
 		game_processor=get_game_processor(params['game_processor']),
 		game_filter=get_game_filter(params['game_filter']),
-		chunk_size=100000,
-		log_level=logging.ERROR
+		chunk_size=params['chunk_size'],
+		log_level=logging.INFO
 	)
 	position_extractor.extract(number_games=params['number_games'])

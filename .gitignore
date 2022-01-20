@@ -9,6 +9,10 @@ data/triplets/*
 models/*
 results/*
 
+# Config files
+*.yaml
+!config.yaml
+
 # VS Code
 .vscode
 
