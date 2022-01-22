@@ -6,12 +6,6 @@ train:
     test_dir: ./data/tensors/test
     test_batch_size: 128
   model:
-    input_size: 773
-    embedding_size: 128
-    hidden_layers:
-    - 1024
-    - 256
-    - 64
     loss: binary_crossentropy
     train_steps_per_epoch: 20
     test_steps_per_epoch: 5
