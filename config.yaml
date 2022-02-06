@@ -1,28 +1,27 @@
 preprocess:
   pgn_path: ./data/pgn/lichess_db_standard_rated_2013-01.pgn
   save_path: ./data/tensors/lichess_db_standard_rated_2013-01_v2.h5
-  game_filter: none
+  game_filter: filter_out_bullet_games
   game_processor: positions_to_tensor
   chunk_size: 100000
   number_games: 100
 train:
   data:
-    format: tensor
     train_dir: ./data/tensors/train
-    train_batch_size: 256
     test_dir: ./data/tensors/test
+    train_batch_size: 256
     test_batch_size: 256
   model:
-    loss: binary_crossentropy
+    save_dir: ./models
     train_steps_per_epoch: 20
     test_steps_per_epoch: 5
+    loss: binary_crossentropy
     tf_callbacks: [checkpoints]
-    save_dir: ./models
 evaluate:
   data:
+    model_dir: ./models
     test_dir: ./data/tensors/test
     test_batch_size: 64
-    model_dir: ./models
   eval:
     number_examples: 10
     result_dir: ./results

@@ -1,4 +1,5 @@
 import argparse
+from typing import Tuple
 import chess
 import yaml
 from pathlib import Path
@@ -8,7 +9,12 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow import keras
 
-from chesspos.preprocessing import SampleGenerator, board_to_tensor, tensor_to_board
+from preprocessing import (
+	sample_generator_to_autoencoder_input, board_to_tensor_with_padding,
+	tensor_to_board_with_padding
+)
+
+from chesspos.preprocessing import SampleGenerator
 from chesspos.models import ResnetAutoencoder, DenseAutoencoder, CnnAutoencoder
 
 if __name__ == "__main__":
@@ -18,21 +24,39 @@ if __name__ == "__main__":
 		help='configuration file'
 	)
 	args = parser.parse_args()
-	params = yaml.safe_load(open(Path(__file__).with_name(args.config)))['train']
+	train_params = yaml.safe_load(open(Path(__file__).with_name(args.config)))['train']
 	evaluate_params = yaml.safe_load(open(Path(__file__).with_name(args.config)))['evaluate']
 
-	data_params = params['data']
-	model_params = params['model']
+	"""
+	Optionally define a custom function here which formats samples from the
+	sample generator and returns inputs to the neural network.
+	"""
+	def custom_sample_preprocessor(samples: np.ndarray) -> Tuple[np.ndarray]:
+		raise NotImplementedError
+
+	"""
+	Optionally define a custom function here, which converts a neural network
+	output to chess board.
+	"""
+	def custom_output_to_board(output: np.ndarray) -> chess.Board:
+		raise NotImplementedError
+
+	"""
+	Optionally define a custom function here, which converts a chess board to
+	a neural network input.
+	"""
+	def custom_board_to_input(board: chess.Board) -> np.ndarray:
+		raise NotImplementedError
+
+	# Adapt these if you implemented a custom function above.
+	sample_preprocessor = sample_generator_to_autoencoder_input # or choose custom_sample_preprocessor
+	output_to_board = tensor_to_board_with_padding # or choose custom_output_to_board
+	board_to_input = board_to_tensor_with_padding # or choose custom_board_to_input
+
+	data_params = train_params['data']
+	model_params = train_params['model']
 	evaluate_data_params = evaluate_params['data']
 	evaluate_eval_params = evaluate_params['eval']
-
-	# Training script
-	add_tensor_dimension = lambda x: np.expand_dims(x, axis=-1)
-	add_batch_dimension = lambda x: np.expand_dims(x, axis=0)
-	sample_preprocessor = lambda samples: tuple([add_tensor_dimension(samples), add_tensor_dimension(samples)])
-	board_to_tensor_with_padding = lambda board: add_batch_dimension(add_tensor_dimension(board_to_tensor(board)))
-	tensor_to_board_with_padding = lambda tensor: tensor_to_board(tensor[0,:,:,:,0])
-
 
 	train_generator = SampleGenerator(
 		sample_dir = data_params['train_dir'],
@@ -65,7 +89,7 @@ if __name__ == "__main__":
 
 	history = autoencoder.train()
 	autoencoder.save()
-	autoencoder.load()
+	#autoencoder.load()
 
 	number_examples = evaluate_eval_params['number_examples']
 
