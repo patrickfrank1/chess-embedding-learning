@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "chess-embedding-learning"
+version = "0.1.0"
+description = "Learn embeddings for chess positions"
+authors = ["Patrick Frank <patr.frank@gmx.de>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+tensorflow = "^2.10.0"
+numpy = "^1.23.4"
+chess = "^1.9.3"
+# chess-embedding = "^0.1.4"
+chess-embedding = { path = "../chess-embedding", develop = true }
+
+[tool.poetry.dev-dependencies]
+dvc = "^2.34.1"
+ipykernel = "^6.17.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

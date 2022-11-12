@@ -1,29 +1,33 @@
-from typing import Callable
-import h5py
-import yaml
-import logging
 import argparse
+import logging
 from pathlib import Path
-import chess
 
-from chesspos.preprocessing import *
-from util import get_game_filter, get_game_processor
+import chess
+import numpy as np
+import yaml
+from chesspos.preprocessing import PgnExtractor
+
+import src.utils.util as util
 
 if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description='Extract information from games in pgn files.')
-	parser.add_argument('--config', type=str, action="store", default="config.yaml",
+	parser.add_argument('--config', type=str, action="store", default="",
 		help='configuration file'
 	)
 	args = parser.parse_args()
-	params = yaml.safe_load(open(Path(__file__).with_name(args.config)))['preprocess']
+
+	config_path = Path(__file__).with_name('config.yaml')
+	if args.config != "":
+		config_path = Path(args.config)
+	params = yaml.safe_load(open(config_path))
 
 	"""
 	Optionally define a custom filter function here, which filters game by the
-	provided header information.
+	provided header information. Skips a game if the filter evaluates to True.
 	"""
-	def custom_game_filter(header: chess.pgn.Header) -> bool:
-		raise NotImplementedError
+	def custom_game_filter(header: chess.pgn.Headers) -> bool:
+		return False
 
 	"""
 	Optionally define a custom function here which encodes game positions for
@@ -37,12 +41,12 @@ if __name__ == "__main__":
 
 
 	if params['game_filter'] is not None:
-		game_filter = get_game_filter(params['game_filter'])
+		game_filter = util.get_game_filter(params['game_filter'])
 	else:
 		game_filter = custom_game_filter
 
 	if params['game_processor'] is not None:
-		game_processor = get_game_processor(params['game_processor'])
+		game_processor = util.get_game_processor(params['game_processor'])
 	else:
 		game_processor = custom_game_processor
 
@@ -62,4 +66,4 @@ if __name__ == "__main__":
 	"""
 	Extract positions from pgn games.
 	"""
-	position_extractor.extract(number_games=params['number_games'])
+	position_extractor.extract(number_games=int(params['number_games']))

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow import keras
 
-from preprocessing import (
+from train.preprocessing import (
 	sample_generator_to_autoencoder_input, board_to_tensor_with_padding,
 	tensor_to_board_with_padding
 )

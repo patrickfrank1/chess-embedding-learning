@@ -1,0 +1,6 @@
+pgn_path: ./data/pgn/lichess_db_standard_rated_2013-01.pgn
+save_path: ./data/tensors/lichess_db_standard_rated_2013-01_no_bullet.h5
+game_filter: filter_out_bullet_games
+game_processor: positions_to_tensor
+chunk_size: 100_000
+number_games: 1_000_000_000
