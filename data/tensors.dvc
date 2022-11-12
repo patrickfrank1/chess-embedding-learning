@@ -1,5 +1,5 @@
 outs:
-- md5: daf3693fbd4e1cab7476876d44936d0e.dir
-  size: 24298865
+- md5: 513699b31cd1ca81ae8c8ba69054ed19.dir
+  size: 11355785
   nfiles: 1
   path: tensors
