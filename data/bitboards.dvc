@@ -1,0 +1,5 @@
+outs:
+- md5: 950754df5ed3fe75c8744a19571e38f6.dir
+  size: 19618663
+  nfiles: 1
+  path: bitboards

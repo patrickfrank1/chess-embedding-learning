@@ -1,9 +1,5 @@
-cogram_test.ipynb
-
 # Data and models
-data/bitboards/*
 data/tuples/*
-data/tensors/*
 data/triplets/*
 models/*
 !models/README.md
