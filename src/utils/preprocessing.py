@@ -2,7 +2,7 @@ from typing import Tuple
 import numpy as np
 import chess
 
-from chesspos.preprocessing import board_to_tensor, tensor_to_board
+from chesspos.preprocessing.position_processors import board_to_tensor, tensor_to_board
 
 def sample_generator_to_autoencoder_input(samples: np.ndarray) -> Tuple[np.ndarray]:
 	"""Takes a sample generator output and returns a pair of input tensors for the autoencoder."""

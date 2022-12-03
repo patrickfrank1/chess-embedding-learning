@@ -1,6 +1,10 @@
-pgn_path: ./data/pgn/lichess_db_standard_rated_2013-01.pgn
-save_path: ./data/tensors/lichess_db_standard_rated_2013-01_no_bullet.h5
-game_filter: filter_out_bullet_games
-game_processor: positions_to_tensor
-chunk_size: 100_000
-number_games: 1_000_000_000
+extractor:
+  pgn_path: ./data/pgn/lichess_db_standard_rated_2013-01.pgn
+  save_path: ./data/tensors/lichess_db_standard_rated_2013-01_no_bullet.h5
+  is_process_game: no_filter # filter_out_bullet_games | master_vs_master | master_vs_amateur | draw
+  chunk_size: 100000
+  number_games: 1000000
+  game_processor:
+    is_process_position: no_filter # 3_to_5_pieces | subsample_opening_light | subsample_opening_medium | subsample_opening_heavy
+    position_processor: bitboard # tensor_8_8_15
+    position_aggregator: identity # triplets
